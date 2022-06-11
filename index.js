@@ -8,10 +8,14 @@ const port=5000
 
 const app=express()
 
-app.get('/',(req,res)=>{
-    res.send('welcome in my project')
+app.get('/',async(req,res)=>{
+    const patients=await prisma.patient.findMany()
+    res.json(patients)
 })
-
+app.post('/',async(req,res)=>{
+    const patients=await prisma.patient.findMany()
+    res.json(patients)
+})
 app.get('/creatDoctor',async(req,res)=>{
     const doctor=await prisma
 })
