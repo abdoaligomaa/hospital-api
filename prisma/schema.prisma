@@ -31,8 +31,6 @@ model patient {
 model department {
   id  Int @id @default(autoincrement())
   name department_names
-  email String
-  password String
   patients patient[]
   doctors doctor[]
 
