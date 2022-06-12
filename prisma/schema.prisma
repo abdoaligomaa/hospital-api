@@ -12,9 +12,9 @@ datasource db {
 model doctor {
   id  Int @id @default(autoincrement())
   name String
-  email String
+  email String @unique
   password String
-  role doctor_role
+  role doctor_role @default(NORMAL)
   patients patient[]
   department_id Int 
   department department @relation(fields: [department_id],references: [id])
@@ -23,14 +23,14 @@ model doctor {
 model patient {
   id  Int @id @default(autoincrement())
   name String
-  email String
+  phone Int @unique
   password String
-  doctors doctor[]
+  doctors  doctor[]
   departments department[]
 }
 model department {
   id  Int @id @default(autoincrement())
-  name department_names
+  name department_names @unique
   patients patient[]
   doctors doctor[]
 
