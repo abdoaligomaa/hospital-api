@@ -1,6 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const jwt=require('jsonwebtoken')
+
 
 // log in admin 
 const checkPassowrd=(user,password)=>{
@@ -10,7 +12,11 @@ const checkPassowrd=(user,password)=>{
     return false
 
 }
+const generateTokne=(admin)=>{
+    const token=jwt.sign({email:admin.email},"secret jwt")
+    return token
 
+}
 const LogIn =async(req,res)=>{
     const {email,password}=req.body
     console.log(email,password)
@@ -31,7 +37,9 @@ const LogIn =async(req,res)=>{
       if (!isAdmin) {
         throw "this password is not valid use the correct password";
       }
-      res.json({ admin });
+      // genertate token
+      const token=generateTokne(admin)
+      res.json({ admin,token });
     } catch (error) {
         res.json({error})
     }
