@@ -1,9 +1,13 @@
+const adminRouter=require('./router/admin')
+
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const express = require("express");
 const app = express();
 
+app.use(express.json())
+app.use('/api/v1/admin',adminRouter)
 // create department
 app.post("/createDepartment", async (req, res) => {
   try {
@@ -37,7 +41,7 @@ app.get("/allDepartment", async (req, res) => {
         console.log(error)
        res.json({ error });
      }
-     
+
 
     
 })
