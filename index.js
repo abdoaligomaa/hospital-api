@@ -37,6 +37,7 @@ app.get("/allDepartment", async (req, res) => {
         console.log(error)
        res.json({ error });
      }
+     
 
     
 })
