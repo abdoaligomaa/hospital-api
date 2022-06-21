@@ -13,6 +13,7 @@ model admin {
   id        Int        @id @default(autoincrement())
   email     String     @unique @db.VarChar(255)
   fullName  String?    @db.VarChar(255)
+  password  String
   
 
   @@map(name: "Admin")
@@ -21,6 +22,7 @@ model Student {
   id        Int        @id @default(autoincrement())
   email     String     @unique @db.VarChar(255)
   fullName  String?    @db.VarChar(255)
+  password  String
   enrolled  Boolean    @default(false)
   dept      Department @relation(fields: [deptId], references: [id])
   deptId    Int
@@ -46,6 +48,7 @@ model Teacher {
   id        Int         @id @default(autoincrement())
   email     String      @unique @db.VarChar(255)
   fullName  String?     @db.VarChar(255)
+  password  String
   courses   Course[]
   type      TeacherType @default(FULLTIME)
   createdAt DateTime    @default(now())
