@@ -68,8 +68,37 @@ const createDepartment=async(req,res)=>{
     // res.send('error in creat department')
   }
 }
+// create new course
+const createCourse=async(req,res)=>{
+  try {
+    const course = req.body;
+    const oldCourse = await prisma.course.findFirst({
+      where: {
+        code: course.code,
+      },
+    });
+    if (oldCourse) {
+      throw "you can not creat this course because there is an other course by it's code";
+    }
+    const newCourse = await prisma.course.create({
+      data: {
+        code:course.code,
+        title:course.title
+      },
+    });
 
+    // if (!newCourse) {
+    //   throw "you should provide more infromation";
+    // }
+
+    res.json(newCourse);
+  } catch (error) {
+    res.json({error})
+    // res.send('error in creat department')
+  }
+}
 module.exports={
     LogIn,
-    createDepartment
+    createDepartment,
+    createCourse
 }
