@@ -47,6 +47,7 @@ const LogIn =async(req,res)=>{
 
 // create department
 const createDepartment=async(req,res)=>{
+  // note : check for name and deparment info from req.body before going in prisma code
   try {
     const department=req.body
     const oldDepartment=await prisma.department.findFirst({
@@ -70,6 +71,7 @@ const createDepartment=async(req,res)=>{
 }
 // create new course
 const createCourse=async(req,res)=>{
+  // note : check for code ,title and course info from req.body before going in prisma code
   try {
     const course = req.body;
     const oldCourse = await prisma.course.findFirst({
@@ -82,8 +84,8 @@ const createCourse=async(req,res)=>{
     }
     const newCourse = await prisma.course.create({
       data: {
-        code:course.code,
-        title:course.title
+        code: course.code,
+        title: course.title,
       },
     });
 
@@ -93,7 +95,7 @@ const createCourse=async(req,res)=>{
 
     res.json(newCourse);
   } catch (error) {
-    res.json({error})
+    res.json({ error });
     // res.send('error in creat department')
   }
 }
