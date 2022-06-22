@@ -45,6 +45,31 @@ const LogIn =async(req,res)=>{
     }
 }
 
+// create department
+const createDepartment=async(req,res)=>{
+  try {
+    const department=req.body
+    const oldDepartment=await prisma.department.findFirst({
+      where:{
+        name:department.name
+      }
+    })
+    if(oldDepartment){
+      throw "you can not creat this department because there is an other department by it's name"
+    }
+    const newDepartment=await prisma.department.create({
+      data:department,
+    })
+    
+    res.json(newDepartment)
+    
+  } catch (error) {
+    res.json({error})
+    // res.send('error in creat department')
+  }
+}
+
 module.exports={
-    LogIn
+    LogIn,
+    createDepartment
 }
