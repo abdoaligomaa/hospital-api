@@ -110,8 +110,42 @@ const createCourse=async(req,res)=>{
     res.json({ error });
   }
 }
+
+// create new student
+const createStudent=async(req,res)=>{
+  // note : check for code ,title and course info from req.body before going in prisma code
+  try {
+    
+    const { email,password,name } = req.body;
+    if (!email||!password ) {
+      throw " you should Enter email and password for the student";
+    }
+    const oldStudent = await prisma.student.findUnique({
+      where: {
+        email:email
+      },
+    });
+    if (oldStudent) {
+      throw "you can not create this student because there is an other student by it's emial";
+    }
+    const newStudent = await prisma.student.create({
+      data: {
+       email,
+       password
+      },
+    });
+    console.log(newStudent)
+
+  
+
+    res.json(newStudent);
+  } catch (error) {
+    res.json({ error });
+  }
+}
 module.exports={
     LogIn,
     createDepartment,
-    createCourse
+    createCourse,
+    createStudent
 }
