@@ -1,7 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const jwt=require('jsonwebtoken')
+const jwt=require('jsonwebtoken');
+const { connect } = require("../router/admin");
 
 
 // log in admin 
@@ -116,9 +117,9 @@ const createStudent=async(req,res)=>{
   // note : check for code ,title and course info from req.body before going in prisma code
   try {
     
-    const { email,password,name } = req.body;
-    if (!email||!password ) {
-      throw " you should Enter email and password for the student";
+    const { email,password,name,departmentId } = req.body;
+    if (!email || !password || !departmentId) {
+      throw " you should Enter email and password and department id for the student";
     }
     const oldStudent = await prisma.student.findUnique({
       where: {
@@ -131,8 +132,11 @@ const createStudent=async(req,res)=>{
     const newStudent = await prisma.student.create({
       data: {
        email,
-       password
+       password,
+       deptId:departmentId
+      
       },
+      
     });
     console.log(newStudent)
 
