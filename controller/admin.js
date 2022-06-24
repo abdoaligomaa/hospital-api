@@ -49,17 +49,24 @@ const LogIn =async(req,res)=>{
 const createDepartment=async(req,res)=>{
   // note : check for name and deparment info from req.body before going in prisma code
   try {
-    const department=req.body
+    const {name}=req.body
+    if(!name){
+      throw " you should Enter the name for the department"
+    }
+    console.log(name)
     const oldDepartment=await prisma.department.findFirst({
       where:{
-        name:department.name
+        name:name,
       }
     })
     if(oldDepartment){
       throw "you can not creat this department because there is an other department by it's name"
     }
     const newDepartment=await prisma.department.create({
-      data:department,
+      data:{
+        name:name,
+
+      },
     })
     
     res.json(newDepartment)
@@ -73,10 +80,15 @@ const createDepartment=async(req,res)=>{
 const createCourse=async(req,res)=>{
   // note : check for code ,title and course info from req.body before going in prisma code
   try {
-    const course = req.body;
+    
+    const { code,title } = req.body;
+    if (!code ) {
+      throw " you should Enter code for the course";
+    }
     const oldCourse = await prisma.course.findFirst({
       where: {
-        code: course.code,
+        code: code,
+        title:title
       },
     });
     if (oldCourse) {
@@ -84,8 +96,8 @@ const createCourse=async(req,res)=>{
     }
     const newCourse = await prisma.course.create({
       data: {
-        code: course.code,
-        title: course.title,
+        code: code,
+        title: title,
       },
     });
 
@@ -96,7 +108,6 @@ const createCourse=async(req,res)=>{
     res.json(newCourse);
   } catch (error) {
     res.json({ error });
-    // res.send('error in creat department')
   }
 }
 module.exports={
